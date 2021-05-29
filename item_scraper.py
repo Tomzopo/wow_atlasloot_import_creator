@@ -25,7 +25,6 @@ def get_input_files(file):
 
 
 def get_items(url):
-    # url = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)"
     html_content = requests.get(url).text
     soup = BeautifulSoup(html_content, "html.parser")
 
