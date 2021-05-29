@@ -2,6 +2,7 @@
 
 import os
 import item_scraper as scraper
+import shutil
 
 
 def get_files(file_path):
@@ -17,6 +18,7 @@ def read_item_id_file(filename):
     output_filename = "atlas_loot_imports/" + filename
     if os.path.exists(output_filename):
         os.remove(output_filename)
+    os.makedirs(os.path.dirname(output_filename), exist_ok=True)
     file_output = open(output_filename, 'x')
 
     file_output.write('i:10052,')
@@ -34,42 +36,20 @@ def read_item_id_file(filename):
     file_input.close()
     file_output.close()
 
-
-def fix_export():
-    input_filename = "files_to_be_fixed"
-
-
-def create_from_export(filename):
-    fixed_input_filename = "temp_files/to_be_fixed/" + filename
-    file_input = open(fixed_input_filename, 'r')
-
-    output_filename = "temp_files/item_lists/" + filename
-    if os.path.exists(output_filename):
-        os.remove(output_filename)
-    file_output = open(output_filename, 'x')
-
-    for line in file_input:
-        item_list = line.split(',')
-        fixed_ids = {item_id.replace('i:', '') for item_id in item_list}
-
-        for current_id in fixed_ids:
-            file_output.write(current_id + '\n')
-
-    file_input.close()
-    file_output.close()
-
-    os.remove(fixed_input_filename)
+    print("Completed: " + output_filename)
 
 
 if __name__ == '__main__':
+    if os.path.exists('temp_files'):
+        shutil.rmtree('temp_files')
 
-    # file_list_export_fix = get_files("temp_files/to_be_fixed")
-    # for file in file_list_export_fix:
-    #     create_from_export(file)
+    if os.path.exists('atlas_loot_imports'):
+        shutil.rmtree('atlas_loot_imports')
 
     scraper.get_input_files("preraid_pages.txt")
     scraper.get_input_files("phase1_pages.txt")
 
     file_list_input = get_files("temp_files/item_lists/")
+
     for file in file_list_input:
         read_item_id_file(file)
