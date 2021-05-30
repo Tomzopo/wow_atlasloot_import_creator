@@ -1,8 +1,9 @@
 # Convert Item ID file list to atlasloot import
 
 import os
-import item_scraper as scraper
 import shutil
+
+import item_scraper as scraper
 
 
 def get_files(file_path):
@@ -19,7 +20,7 @@ def read_item_id_file(filename):
     if os.path.exists(output_filename):
         os.remove(output_filename)
     os.makedirs(os.path.dirname(output_filename), exist_ok=True)
-    file_output = open(output_filename, 'x')
+    file_output = open(output_filename, 'x', encoding="utf-16")
 
     file_output.write('i:10052,')
     file_output.write('i:28788,')
